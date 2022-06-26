@@ -1,13 +1,24 @@
 import { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import SearchForm from 'components/SearchForm';
 import * as API from '../API/API';
 import { toast } from 'react-toastify';
+import Loader from 'components/Loader';
+import s from '../styles.module.css';
 
-export function Movies() {
-  const [movies, setMovies] = useState([]);
+const STATUS = {
+  LOADING: 'loading',
+  PENDING: 'pending',
+  RESOLVED: 'resolved',
+};
+
+function Movies() {
+  const [movies, setMovies] = useState(null);
+  const [status, setStatus] = useState(STATUS.PENDING);
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get('query' ?? '');
+  const query = searchParams.get('query') ?? '';
+  // console.log(query);
 
   const onSearch = query => {
     setSearchParams({ query });
@@ -19,12 +30,18 @@ export function Movies() {
     }
 
     const searchMovies = async () => {
+      setStatus(STATUS.LOADING);
       try {
         const movies = await API.getMovies(query);
-        // console.log(movies);
+
+        if (movies.length === 0) {
+          toast.warning(`No movies for query ${query}`);
+        }
         setMovies(movies);
       } catch (error) {
         toast.error(error.message);
+      } finally {
+        setStatus(STATUS.RESOLVED);
       }
     };
 
@@ -34,11 +51,14 @@ export function Movies() {
   return (
     <>
       <SearchForm onSubmit={onSearch} />
-      {movies && (
+      {status === STATUS.LOADING && <Loader />}
+      {status === STATUS.RESOLVED && (
         <ul>
           {movies.map(({ id, title }) => (
-            <li key={id}>
-              <Link to={`/movies/${id}`}>{title}</Link>
+            <li key={id} className={s.moviesListItem}>
+              <Link to={`/movies/${id}`} state={{ from: location }}>
+                {title}
+              </Link>
             </li>
           ))}
         </ul>
@@ -46,3 +66,5 @@ export function Movies() {
     </>
   );
 }
+
+export default Movies;

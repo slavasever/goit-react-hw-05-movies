@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import * as API from '../../API/API';
 import { toast } from 'react-toastify';
-// import s from './Reviews.module.css';
+import s from './Reviews.module.css';
 
 function Reviews() {
   const { movieId } = useParams();
@@ -16,7 +16,7 @@ function Reviews() {
 
         if (cast) {
           setFilmReviews(cast);
-          console.log(cast);
+          // console.log(cast);
         }
       } catch (error) {
         toast.error(error.message);
@@ -29,12 +29,12 @@ function Reviews() {
 
   return filmReviews.length > 0 ? (
     <>
-      <ul>
+      <ul className={s.list}>
         {filmReviews.map(({ id, author, content }) => {
           return (
-            <li key={id}>
-              <h4>{author}</h4>
-              <p>{content}</p>
+            <li key={id} className={s.item}>
+              <h4 className={s.author}>{author}</h4>
+              <p className={s.content}>{content}</p>
             </li>
           );
         })}

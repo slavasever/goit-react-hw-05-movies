@@ -6,6 +6,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
 }
 
 body {
@@ -19,4 +20,16 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.navLink {
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.active {
+  /* composes: navLink; */
+  color: rgb(224, 55, 55)
 }

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
+import s from './SearchForm.module.css';
 
 function SearchForm({ onSubmit }) {
   const [inputValue, setInputValue] = useState('');
@@ -23,12 +25,23 @@ function SearchForm({ onSubmit }) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={inputValue} onChange={handleChange}></input>
-        <button type="submit">Search</button>
+      <form onSubmit={handleSubmit} className={s.form}>
+        <input
+          type="text"
+          value={inputValue}
+          className={s.input}
+          onChange={handleChange}
+        ></input>
+        <button type="submit" className={s.button}>
+          Search
+        </button>
       </form>
     </>
   );
 }
+
+SearchForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default SearchForm;
