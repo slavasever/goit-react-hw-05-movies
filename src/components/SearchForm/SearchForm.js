@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import s from './SearchForm.module.css';
 
-function SearchForm({ onSubmit }) {
+function SearchForm({ onSubmit, query }) {
   const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    setInputValue(query);
+  }, [query]);
 
   const handleChange = event => {
     const inputValue = event.currentTarget.value;
@@ -20,7 +24,6 @@ function SearchForm({ onSubmit }) {
     }
 
     onSubmit(inputValue);
-    setInputValue('');
   };
 
   return (
@@ -42,6 +45,7 @@ function SearchForm({ onSubmit }) {
 
 SearchForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
 };
 
 export default SearchForm;

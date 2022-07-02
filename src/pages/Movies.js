@@ -18,7 +18,6 @@ function Movies() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
-  // console.log(query);
 
   const onSearch = query => {
     setSearchParams({ query });
@@ -50,7 +49,7 @@ function Movies() {
 
   return (
     <>
-      <SearchForm onSubmit={onSearch} />
+      <SearchForm onSubmit={onSearch} query={query} />
       {status === STATUS.LOADING && <Loader />}
       {status === STATUS.RESOLVED && (
         <ul>

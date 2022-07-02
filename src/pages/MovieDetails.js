@@ -5,7 +5,7 @@ import {
   useLocation,
   useNavigate,
 } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import * as API from '../API/API';
 import { toast } from 'react-toastify';
 import Loader from 'components/Loader';
@@ -98,7 +98,9 @@ function MovieDetails() {
             </li>
           </ul>
           <hr />
-          <Outlet />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Outlet />
+          </Suspense>
         </>
       )}
     </>

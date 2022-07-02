@@ -7,7 +7,6 @@ import s from './Cast.module.css';
 function Cast() {
   const { movieId } = useParams();
   const [filmCast, setFilmCast] = useState([]);
-  //   console.log(movieId);
 
   useEffect(() => {
     const getCast = async () => {
@@ -16,11 +15,9 @@ function Cast() {
 
         if (cast) {
           setFilmCast(cast);
-          // console.log(cast);
         }
       } catch (error) {
         toast.error(error.message);
-        // console.log(error.message);
       }
     };
 
